@@ -199,7 +199,6 @@ export const LandingPage=()=> {
                 content: "''",
                 width: { sm: "120px", md: "250px", lg: "300px" },
                 height: "3px",
-                // bg: activeBullets.profile ? textColor : "gray.200",
                 left: { sm: "12px", md: "32px" },
                 top: { sm: activeBullets.address ? "6px" : "4px", md: null },
                 position: "absolute",
