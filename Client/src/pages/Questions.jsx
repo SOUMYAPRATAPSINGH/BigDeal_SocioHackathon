@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react';
-import logo from "../assets/logo.png";
 import axios from "axios";
 import { useUser } from '../userContext.jsx';
 import {
