@@ -121,6 +121,7 @@ const SignUp = () => {
       <FormControl id="first-name" isRequired>
         <FormLabel>Name</FormLabel>
         <Input
+        bg="white"
           placeholder="Enter Your Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -130,6 +131,7 @@ const SignUp = () => {
       <FormControl id="email" isRequired>
         <FormLabel>Email</FormLabel>
         <Input
+        bg="white"
           placeholder="Enter Your Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -139,6 +141,7 @@ const SignUp = () => {
       <FormControl id="phoneNumber" isRequired>
         <FormLabel>Phone Number</FormLabel>
         <Input
+        bg="white"
           type="number"
           placeholder="Enter Your 10 Digit Number"
           value={phoneNumber}
@@ -149,6 +152,7 @@ const SignUp = () => {
       <FormControl id="age" isRequired>
         <FormLabel>Age</FormLabel>
         <Input
+        bg="white"
           type="number"
           placeholder="30"
           value={age}
@@ -159,6 +163,7 @@ const SignUp = () => {
       <FormControl id="maritalStatus" isRequired>
         <FormLabel>Marital Status</FormLabel>
         <Input
+        bg="white"
           type="text"
           placeholder="Single/Married"
           value={maritalStatus}
@@ -183,6 +188,7 @@ const SignUp = () => {
         <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
+          bg="white"
             type={show ? "text" : "password"}
             placeholder="Enter Your Password"
             value={password}
@@ -201,6 +207,7 @@ const SignUp = () => {
         <FormLabel>Confirm Password</FormLabel>
         <InputGroup>
           <Input
+          bg="white"
             type={show ? "text" : "password"}
             placeholder="Enter Your Password"
             value={confirmPassword}
@@ -216,7 +223,7 @@ const SignUp = () => {
       </FormControl>
 
       <Button
-        colorScheme="blue"
+        colorScheme="purple"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
