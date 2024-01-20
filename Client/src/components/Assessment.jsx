@@ -2,6 +2,8 @@ import {useState, useEffect} from 'react';
 import axios from "axios";
 import { useUser } from '../userContext.jsx';
 import logo from "../assets/OpenUp.jpg"
+import Webcam from 'react-webcam';
+
 import {
   VStack,
   Button,
@@ -12,10 +14,10 @@ Flex,
 
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar.jsx';
-import {TestRules} from '../components/TestRules.jsx';
+import {Rules} from '../components/Rules.jsx';
 import {QuestionsForm} from '../components/QuestionsForm.jsx';
 import { ResultComponent } from '../components/ResultComponents.jsx';
-export const Questions = () => {
+export const Assessment = () => {
   const questionsWithOptions = {
     "I am not a worrier.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
     "I like to have a lot of people around me.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
@@ -235,9 +237,9 @@ export const Questions = () => {
               </Box>
             </Container>
             <VStack align="center" spacing="4" mt="4">
-              <Image src={logo} alt="Personality Test Logo" boxSize={{ base: '200px', md: '150px' }} />
+              <Webcam height={400} width={400}/>
 
-              {!testStarted && <TestRules agreementChecked={agreementChecked} onAgreementChange={setAgreementChecked} />}
+              {!testStarted && <Rules agreementChecked={agreementChecked} onAgreementChange={setAgreementChecked} />}
 
               {testStarted && currentQuestion < questions.length && (
                 <QuestionsForm
