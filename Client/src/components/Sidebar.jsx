@@ -85,7 +85,7 @@ export const Sidebar = () => {
               </Link>
             </Button>
             <Button colorScheme="teal" variant="solid" size="md" w="100%" leftIcon={<Icon as={FaBrain} />}>
-              <Link to="/personality-test" >
+              <Link to="/assessment" >
                 Mental Assessment
               </Link>
             </Button>
