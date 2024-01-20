@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from "axios";
 import { useUser } from '../userContext.jsx';
+import logo from "../assets/OpenUp.jpg"
 import {
   VStack,
   Button,

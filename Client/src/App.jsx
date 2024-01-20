@@ -27,6 +27,7 @@ const App = () => {
       <PrivateRoute path="/personality-test" component={Questions} />
       <PrivateRoute path="/intake-form" component={IntakeForm} />
       <PrivateRoute path="/appointment" component={Appointment} />
+      <PrivateRoute path="/PhysAi" component={Appointment} />
     </div>
   );
 };
