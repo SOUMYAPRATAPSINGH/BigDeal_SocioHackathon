@@ -342,7 +342,7 @@ import React from 'react'
 import {Index} from "../../src copy/pages/Index.jsx"
 export const LandingPage = () => {
   return (
-    <div>
+    <div   >
       <Index/>
     </div>
   )

@@ -1,3 +1,5 @@
+AWS_SDK_LOAD_CONFIG=1
+
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
@@ -6,10 +8,10 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const env = require('dotenv');
 const OpenAI = require('openai');
-
+const multer = require("multer");
 const app = express();
 const port = 3000;
-
+const AWS = require("aws-sdk");
 app.use(cors());
 app.use(express.json());
 env.config();
@@ -19,6 +21,30 @@ mongoose.connect(`mongodb+srv://abish:l2TFchymzqLLYAOY@cluster0.btfwxae.mongodb.
   useUnifiedTopology: true,
   authSource: "admin", 
 });
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+});
+
+
+const Polly = new AWS.Polly({
+  signatureVersion: "v4",
+  region: "us-east-1",
+});
+
+AWS.config.logger = console;
+
+// Now you can use AWS SDK functionality, e.g., creating an S3 client
+// const s3 = new AWS.S3();
+
+// // Example: List all S3 buckets
+// s3.listBuckets((err, data) => {
+//   if (err) {
+//     console.error('Error listing buckets:', err);
+//   } else {
+//     console.log('S3 Buckets:', data.Buckets);
+//   }
+// });
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -70,12 +96,31 @@ const authenticateToken = (req, res, next) => {
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+const upload = multer();
+app.use(express.json()); // Add this line to parse JSON in the request body
 
-app.post("/api/chat", async (req, res) => {
+
+async function getPrompt(prompt) {
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: prompt,
+      temperature: 0.6,
+      max_tokens: 1000,
+    });
+    return response;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+app.post("/api/chat", upload.single("audio"), async (req, res) => {
   try {
     const sessionResponse = {
       transcription: null,
       chatResponse: null,
+      audioResponse: null,
       messages: null,
     };
 
@@ -83,16 +128,12 @@ app.post("/api/chat", async (req, res) => {
 
     sessionResponse.messages = req.body.messages;
 
-    if (req.body.audio) {
-      const audio = req.body.audio;
-      const base64 = audio.split(",")[1];
-      const buf = Buffer.from(base64, "base64");
-      buf.name = "sound.webm";
-
-      const response = await openai.transcribe({
-        audio: buf,
-        content_type: "audio/webm",
-      });
+    if (req.file) {
+      const audioBuffer = Buffer.from(req.file.buffer);
+      const response = await openaiApi.createTranscription(
+        audioBuffer,
+        "whisper-1"
+      );
 
       console.log("Transcription response:", response.data);
 
@@ -103,25 +144,63 @@ app.post("/api/chat", async (req, res) => {
       });
     }
 
-    const data = await openai.complete({
-      engine: "text-davinci-002",  // Use the appropriate engine
-      prompt: sessionResponse.messages.map(msg => `${msg.role}: ${msg.content}`).join("\n"),
-      max_tokens: 150,  // Adjust as needed
-    });
+    console.log("sessionResponse.messages___________________", sessionResponse.messages);
 
-    sessionResponse.messages.push({
-      role: "assistant",
-      content: data.choices[0].text,
-    });
-    sessionResponse.chatResponse = data.choices;
+    // Fetch chat completion response from OpenAI API
+    const chatCompletionResponse = await getPrompt(sessionResponse.messages);
 
-    console.log("Session response:", sessionResponse);
-    res.status(200).json(sessionResponse);
+    console.log("___________________", chatCompletionResponse.choices[0].message.content);
+
+    if (
+      chatCompletionResponse &&
+      chatCompletionResponse.choices &&
+      chatCompletionResponse.choices.length > 0 &&
+      chatCompletionResponse.choices[0].message
+    ) {
+      const lastChatMessage = chatCompletionResponse.choices[0].message;
+
+      sessionResponse.messages.push({
+        role: lastChatMessage.role,
+        content: lastChatMessage.content,
+      });
+
+      const pollyParams = {
+        Text: lastChatMessage.content,
+        OutputFormat: "mp3",
+        VoiceId: req.body.voiceId || "Joanna",
+        Engine: "neural",
+      };
+      console.log('----------------------------------------------',pollyParams)
+      Polly.synthesizeSpeech(pollyParams, (err, data) => {
+        if (err) {
+          console.log("Error synthesizing speech:", err);
+          res.status(500).json({ error: "Error synthesizing speech" });
+        } else if (data) {
+          const audioBuffer = Buffer.from(data.AudioStream);
+          const audioDataURI = `data:${data.ContentType};base64,${audioBuffer.toString(
+            "base64"
+          )}`;
+
+          sessionResponse.audioResponse = {
+            audioDataURI,
+            contentType: data.ContentType,
+          };
+
+          console.log("Session response:", sessionResponse);
+          res.status(200).json(sessionResponse);
+        }
+      });
+    } else {
+      console.error("Invalid or empty response from OpenAI API");
+      res.status(500).json({ error: "Invalid or empty response from OpenAI API" });
+    }
   } catch (err) {
     console.error("Error in /api/chat:", err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
 
 // Signup route with JWT token
 app.post('/signup', async (req, res) => {
@@ -184,6 +263,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/payment/orders', async (req, res) => {
+  console.log('order');
   try {
     const instance = new Razorpay({
       key_id: process.env.RZYKEY_ID,
@@ -198,11 +278,14 @@ app.post('/api/payment/orders', async (req, res) => {
 
     instance.orders.create(options, (error, order) => {
       if (error) {
+        console.log(error);
         return res.status(500).json({ message: 'Something Went Wrong' });
       }
+      console.log(order);
       res.status(200).json({ data: order });
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
@@ -228,6 +311,7 @@ app.post('/api/payment/verify', async (req, res) => {
       return res.status(200).json({ message: 'Payment verified successfully' });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
@@ -235,6 +319,7 @@ app.post('/api/payment/verify', async (req, res) => {
 app.get('/userdata/:id', async (req, res) => {
   // Assuming the requested user ID is in the request parameters
   const requestedUserId = req.params.id;
+  console.log(requestedUserId)
   try {
     // Fetch user data from the database based on the requested user ID
     const requestedUser = await User.findById(requestedUserId);
@@ -244,7 +329,8 @@ app.get('/userdata/:id', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // If it matches, construct the user data response
+    // Check if the requested user ID matches the authenticated user's ID
+   else{
     const userData = {
       userId: requestedUser._id,
       name: requestedUser.name,
@@ -256,11 +342,17 @@ app.get('/userdata/:id', async (req, res) => {
     };
 
     res.status(200).json(userData);
+
+   }
+
+    // If it matches, construct the user data response
+    
   } catch (error) {
     console.error('Error fetching user data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 app.post('/personality-test/:userId', async (req, res) => {
   try {
@@ -282,8 +374,10 @@ app.post('/personality-test/:userId', async (req, res) => {
     };
 
     const personalityTest = await PersonalityTest.create(personalityTestData);
+    console.log(personalityTest)
     // Update the User model with the personality test ID
     const updateUser = await User.findByIdAndUpdate(req.params.userId, { personalityTestId: personalityTest._id });
+    console.log( updateUser)
     res.status(200).json({
       message: 'Personality test created successfully',
       userId: req.params.userId,
@@ -294,6 +388,7 @@ app.post('/personality-test/:userId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 // Get personality test by user ID
 app.get('/personality-test/data/:userId', async (req, res) => {
@@ -313,12 +408,16 @@ app.get('/personality-test/data/:userId', async (req, res) => {
     if (!personalityTestData) {
       return res.status(404).json({ error: 'Personality Test not found' });
     }
+   console.log(personalityTestData)
     res.status(200).json(personalityTestData);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

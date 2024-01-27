@@ -26,7 +26,7 @@ export const Dash = () => {
         ml={{ base: '0', md: '300px' }} // Adjust margin for mobile view
       >
         {/* Main Content */}
-        <Box p="6" bg="white" borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
+        <Box p="6" bg="white" borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest" bgGradient="linear(to-r, #36D1DC, #5B86E5)">
           {/* Feature */}
           <LandingPage />
         </Box>

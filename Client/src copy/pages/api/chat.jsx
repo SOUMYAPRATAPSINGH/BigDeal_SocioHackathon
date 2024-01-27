@@ -1,5 +1,7 @@
 const AWS = require("aws-sdk");
 
+
+
 AWS.config.update({
   accessKeyId: process.env.AMAZON_AWS_POLLY_ACCESS_KEY,
   secretAccessKey: process.env.AMAZON_AWS_POLLY_SECRET_KEY,

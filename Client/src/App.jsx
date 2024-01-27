@@ -6,7 +6,6 @@ import { Questions } from './pages/Questions.jsx';
 import { IntakeForm } from './pages/IntakeForm.jsx';
 import { Appointment } from './pages/Appointment.jsx';
 import { Assessment } from './components/Assessment.jsx';
-
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
