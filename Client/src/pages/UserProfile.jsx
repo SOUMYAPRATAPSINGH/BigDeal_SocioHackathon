@@ -188,11 +188,7 @@ export const UserProfile = () => {
 
         <Spacer />
 
-        <Box textAlign="center">
-          <Text fontSize="sm" color="gray.500">
-            &copy; 2023 Medical Dashboard. All rights reserved.
-          </Text>
-        </Box>
+        
       </Flex>
     </div>
   );

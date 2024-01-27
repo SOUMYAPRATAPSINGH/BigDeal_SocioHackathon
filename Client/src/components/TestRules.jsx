@@ -1,8 +1,13 @@
 // TestRules.js
 import React from 'react';
 import { Text, VStack, FormControl, FormLabel } from '@chakra-ui/react';
-
+import {motion} from 'framer-motion'
 export const TestRules = ({ agreementChecked, onAgreementChange }) => (
+  <motion.div 
+    initial={{x:"100%"}}
+    animate={{x:"0%" }}
+    transition={ {ease:"easeIn",duration:0.80 }}
+    exit={{opacity:1}}>
   <VStack spacing="4" align="center">
     <Text textAlign="center" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="bold" color="teal.800">
       Test Rules
@@ -20,6 +25,7 @@ export const TestRules = ({ agreementChecked, onAgreementChange }) => (
       </FormLabel>
     </FormControl>
   </VStack>
+  </motion.div>
 );
 
 export default TestRules;

@@ -4,29 +4,34 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import Login from "../components/Login.jsx"
 import SignUp from "../components/SignUp.jsx"
 import '../pages/HomePage.css'
+import '@fontsource/ubuntu-mono';
+import {motion} from 'framer-motion'
 export const HomePage = () => {
   return (
+    <motion.div
+    initial={{opacity:0.5}}
+    animate={{opacity:1 }}
+    transition={ {ease:"easeIn",duration:0.80 }}
+    exit={{opacity:0.5}}>
     <div className="Home">
       <Container maxW="xl" centerContent>
           <Box 
           display={"flex"}
           justifyContent="center"
           p={3}
-          bg={'white'}
           w="100%"
           m="40px 0 15px 0"
-          borderRadius="lg"
-          borderWidth="1px"
+          
           >
-              <Text fontSize='4xl' fontFamily="Work Sans" color="black">Eunoia</Text>
+              <Text fontSize='6xl' fontWeight={'bold'} color="green.200">Eunoia</Text>
           </Box>
 
-          <Box bg="white" w='100%' p={4} borderRadius='lg' borderWidth="1px">
+          <Box bg="black" w='100%' p={4} >
 
-          <Tabs variant='soft-rounded'>
+          <Tabs variant='soft-rounded' >
           <TabList>
-            <Tab width="50%">Login</Tab>
-            <Tab width="50%">Sign Up</Tab>
+            <Tab width="50%" >Login</Tab>
+            <Tab width="50%" >Sign Up</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -40,6 +45,7 @@ export const HomePage = () => {
           </Box>
       </Container>
       </div>
+      </motion.div>
   )
 }
 

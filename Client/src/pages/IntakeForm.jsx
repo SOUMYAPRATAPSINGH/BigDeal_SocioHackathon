@@ -8,12 +8,16 @@ import {
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar.jsx';
 import { UserProfile } from '../pages/UserProfile.jsx';
+import { animate, easeIn, motion } from 'framer-motion'
 
 export const IntakeForm = () => {
   const [isMobile] = useMediaQuery('(max-width: 600px)');
 
   return (
-    <Flex direction={isMobile ? 'column' : 'row'} minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white">
+    <motion.div
+    
+    >
+    <Flex direction={isMobile ? 'column' : 'row'} minH="100vh" bgColor={'black'} color="white">
       {/* Sidebar */}
       {isMobile ? null : <Sidebar />}
 
@@ -36,5 +40,6 @@ export const IntakeForm = () => {
       {/* Sidebar for mobile view */}
       {isMobile && <Sidebar />}
     </Flex>
+    </motion.div>
   );
 };

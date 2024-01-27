@@ -5,6 +5,7 @@ import { FaBars, FaTimes, FaFileAlt, FaUser, FaBrain, FaCalendarAlt, FaSignOutAl
 import axios from 'axios';
 import { useUser } from '../userContext.jsx'; // Adjust the path accordingly
 import { calcLength } from 'framer-motion';
+import { FaHospitalUser } from "react-icons/fa6";
 
 export const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(!useMediaQuery("(max-width: 600px)")[0]);
@@ -43,7 +44,7 @@ export const Sidebar = () => {
           direction="column"
           align="start"
           spacing="4"
-          bg="teal.600"
+          bg="black"
           p="4"
           boxShadow="md"
           position="fixed"
@@ -66,27 +67,27 @@ export const Sidebar = () => {
           )}
 
           {/* UserProfile */}
-          <VStack align="start" mt={4} spacing="4">
+          <VStack  align="start" mt={4} spacing="4">
             <Box>
-              <Avatar size="md" name="John Doe" src="https://placekitten.com/g/100/100" />
+            <FaHospitalUser color='red' size={40}/>
               <Text mt={2}>{userData && userData.name}</Text>
             </Box>
-            <Button colorScheme="teal" variant="solid" size="md" w="100%" leftIcon={<Icon as={FaFileAlt} />}>
+            <Button bgColor={'green.200'} variant="solid" size="md" w="90%"  leftIcon={<Icon as={FaFileAlt} />}>
               <Link to="/intake-form">
                 Intake Form
               </Link>
             </Button>
-            <Button colorScheme="teal" variant="solid" size="md" w="100%" leftIcon={<Icon as={FaUser} />}>
+            <Button bgColor={'green.200'} variant="solid" size="md" w="90%" leftIcon={<Icon as={FaUser} />}>
               <Link to="/personality-test" >
                 Personality Test
               </Link>
             </Button>
-            <Button colorScheme="teal" variant="solid" size="md" w="100%" leftIcon={<Icon as={FaBrain} />}>
+            <Button bgColor={'green.200'} variant="solid" size="md" w="90%" leftIcon={<Icon as={FaBrain} />}>
               <Link to="/assessment" >
                 Mental Assessment
               </Link>
             </Button>
-            <Button colorScheme="teal" variant="solid" size="md" w="100%" leftIcon={<Icon as={FaCalendarAlt} />}>
+            <Button bgColor={'green.200'} variant="solid" size="md" w="90%" leftIcon={<Icon as={FaCalendarAlt} />}>
               <Link to="/appointment" >
                 Book Session
               </Link>
@@ -96,7 +97,7 @@ export const Sidebar = () => {
               variant="outline"
               mt={4}
               size="md"
-              w="100%"
+              w="80%"
               leftIcon={<Icon as={FaSignOutAlt} />}
               onClick={handleCloseSidebar}
             >
