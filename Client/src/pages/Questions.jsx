@@ -97,10 +97,10 @@ export const Questions = () => {
     const fetchData = async () => {
       try {
         // Fetch user data from the backend API using the userId
-        const responseUserInfo = await axios.get(`/userdata/${userId}`);
+        const responseUserInfo = await axios.get(`http://localhost:3000/userdata/${userId}`);
         setUserinfo(responseUserInfo.data);
   
-        const responseUserData = await axios.get(`/personality-test/data/${userId}`);
+        const responseUserData = await axios.get(`http://localhost:3000/personality-test/data/${userId}`);
         setUserData(responseUserData.data);
         setTestGiven(true);
       } catch (error) {

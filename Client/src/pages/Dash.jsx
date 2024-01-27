@@ -14,7 +14,7 @@ import { LandingPage } from '../components/LandingPage.jsx';
 
 export const Dash = () => {
   return (
-    <Flex minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white">
+    <Flex minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="black">
       {/* Sidebar */}
       <Sidebar />
 
@@ -34,7 +34,7 @@ export const Dash = () => {
         {/* Footer component */}
         <Box mt="auto" textAlign="center">
           <Text fontSize="sm" color="gray.500">
-            &copy; 2023 Naruto Dashboard. All rights reserved.
+            &copy; 2023 Eunoia Dashboard. All rights reserved.
           </Text>
         </Box>
       </Flex>
