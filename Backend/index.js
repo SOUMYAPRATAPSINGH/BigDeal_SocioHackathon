@@ -84,7 +84,6 @@ app.post('/signup', async (req, res) => {
 
     // Save the user to the database
     await newUser.save();
-    console.log(newUser);
 
     // Generate JWT token with email and user ID
     const token = jwt.sign(
@@ -102,13 +101,11 @@ app.post('/signup', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  console.log("hello")
   try {
     const { email, password } = req.body;
 
     // Find the user with the provided email
     const user = await User.findOne({ email });
-    console.log(user)
     if (!user) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
@@ -125,7 +122,6 @@ app.post('/api/login', async (req, res) => {
 
     // Send the token and user ID in the response
     res.status(200).json({ token, userId: user._id });
-    console.log("Login in")
   } catch (error) {
     console.error('Error during login:', error.message);
     res.status(500).send('Internal Server Error');
@@ -133,7 +129,6 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/payment/orders', async (req, res) => {
-  console.log('order');
   try {
     const instance = new Razorpay({
       key_id: process.env.RZYKEY_ID,
@@ -148,14 +143,11 @@ app.post('/api/payment/orders', async (req, res) => {
 
     instance.orders.create(options, (error, order) => {
       if (error) {
-        console.log(error);
         return res.status(500).json({ message: 'Something Went Wrong' });
       }
-      console.log(order);
       res.status(200).json({ data: order });
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
@@ -181,7 +173,6 @@ app.post('/api/payment/verify', async (req, res) => {
       return res.status(200).json({ message: 'Payment verified successfully' });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
@@ -189,7 +180,6 @@ app.post('/api/payment/verify', async (req, res) => {
 app.get('/userdata/:id', async (req, res) => {
   // Assuming the requested user ID is in the request parameters
   const requestedUserId = req.params.id;
-  console.log(requestedUserId)
   try {
     // Fetch user data from the database based on the requested user ID
     const requestedUser = await User.findById(requestedUserId);
@@ -244,10 +234,8 @@ app.post('/personality-test/:userId', async (req, res) => {
     };
 
     const personalityTest = await PersonalityTest.create(personalityTestData);
-    console.log(personalityTest)
     // Update the User model with the personality test ID
     const updateUser = await User.findByIdAndUpdate(req.params.userId, { personalityTestId: personalityTest._id });
-    console.log( updateUser)
     res.status(200).json({
       message: 'Personality test created successfully',
       userId: req.params.userId,
@@ -278,7 +266,6 @@ app.get('/personality-test/data/:userId', async (req, res) => {
     if (!personalityTestData) {
       return res.status(404).json({ error: 'Personality Test not found' });
     }
-   console.log(personalityTestData)
     res.status(200).json(personalityTestData);
   } catch (error) {
     console.error(error);

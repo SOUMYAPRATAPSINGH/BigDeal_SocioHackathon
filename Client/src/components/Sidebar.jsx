@@ -11,7 +11,6 @@ export const Sidebar = () => {
   const [isMobile] = useMediaQuery("(max-width: 600px)");
   const { userId } = useUser(); // Use the useUser hook to get userId
   const [userData, setUserData] = useState(null); // State to store user data
-  console.log(userId)
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -27,12 +26,10 @@ export const Sidebar = () => {
       try {
         const response = await axios.get(`/userdata/${userId}`);
         setUserData(response.data);
-        console.log(response.data)
       } catch (error) {
         console.error('Error fetching user data:', error.message);
       }
-    };
-    console.log("Siderbar")
+    }
 
     if (userId) {
       getUserData();

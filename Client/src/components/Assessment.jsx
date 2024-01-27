@@ -18,67 +18,56 @@ import {QuestionsForm} from '../components/QuestionsForm.jsx';
 import { ResultComponent } from '../components/ResultComponents.jsx';
 export const Assessment = () => {
   const questionsWithOptions = {
-    "I am not a worrier.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I like to have a lot of people around me.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I enjoy concentrating on a fantasy or daydream and exploring all its possibilities, letting it grow and develop.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I try to be courteous to everyone I meet.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I keep my belongings neat and clean.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "At times I have felt bitter and resentful.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I laugh easily.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I think it's interesting to learn and develop new hobbies.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "At times I bully or flatter people into doing what I want them to.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I'm pretty good about pacing myself so as to get things done on time.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "When I'm under a great deal of stress, sometimes I feel like I'm going to pieces.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I prefer jobs that let me work alone without being bothered by other people.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I am intrigued by the patterns I find in art and nature.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "Some people think I'm selfish and egotistical.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I often come into situations without being fully prepared.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I rarely feel lonely or blue.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I really enjoy talking to people.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I believe letting students hear controversial speakers can only confuse and mislead them.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "If someone starts a fight. I'm ready to fight back.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I try to perform all the tasks assigned to me conscientiously.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I often feel tense and jittery.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I like to be where the action is.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "Poetry has little or no effect on me.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I'm better than most people, and I know it.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I have a clear set of goals and work toward them in an orderly fashion.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "Sometimes I feel completely worthless.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I shy away from crowds of people.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I would have difficulty just letting my mind wander without control or guidance.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "When I've been insulted, I just try to forgive and forget.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I waste a lot of time before settling down to work.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I rarely feel fearful or anxious.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I often feel as if I'm bursting with energy.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I seldom notice the moods or feelings that different environments produce.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I tend to assume the best about people.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I work hard to accomplish my goals.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I often get angry at the way people treat me.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I am a cheerful, high-spirited person.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I experience a wide range of emotions or feelings.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "Some people think of me as cold and calculating.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "When I make a commitment, I can always be counted on to follow through.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "Too often, when things go wrong, I get discouraged and feel like giving up.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I don't get much pleasure from chatting with people.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "Sometimes when I am reading poetry or looking at a work of art, I feel a chill or wave of excitement.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I have no sympathy for beggars.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "Sometimes I'm not as dependable or reliable as I should be.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I am seldom sad or depressed.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "My life is fast-paced.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I have little interest in speculating on the nature of the universe or the human condition.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I generally try to be thoughtful and considerate.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I am a productive person who always gets the job done.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I often feel helpless and want someone else to solve my problems.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I am a very active person.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I have a lot of intellectual curiosity.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "If I don't like people, I let them know it.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I never seem to be able to get organized.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "At times I have been so ashamed I just wanted to hide.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "I would rather go my own way than be a leader of others.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I often enjoy playing with theories or abstract ideas.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-    "If necessary, I am willing to manipulate people to get what I want.": { 'Strongly Disagree': 4, Disagree: 3, Neutral: 2, Agree: 1, 'Strongly Agree': 0 },
-    "I strive for excellence in everything I do.": { 'Strongly Disagree': 0, Disagree: 1, Neutral: 2, Agree: 3, 'Strongly Agree': 4 },
-  };
+    "Overall how would you rate your mental health?": {
+      'Excellent': 0,
+      'Somewhat good': 1,
+      'Average': 2,
+      'Somewhat poor': 3,
+      'Poor': 4
+    },
+    "During the past 4 weeks, have you had any problems with your work or daily life due to any emotional problems, such as feeling depressed, sad or anxious?": {
+      'Yes': 4,
+      'Some sort': 3,
+      'Not sure': 2,
+      'May be once or twice': 1,
+      'Not at all': 0
+    },
+    "During the past 4 weeks, how often has your mental health affected your ability to get work done?": {
+      'Very often': 4,
+      'Somewhat often': 3,
+      'May be once or twice': 2,
+      'Not so often': 1,
+      'Not at all': 0
+    },
+    "Have you felt particularly low or down for more than 2 weeks in a row?": {
+      'Very often': 4,
+      'Somewhat often': 3,
+      'May be once or twice': 2,
+      'Not so often': 1,
+      'Not at all': 0
+    },
+    "During the past two weeks, how often has your mental health affected your relationships?": {
+      'Very often': 4,
+      'Somewhat often': 3,
+      'May be once or twice': 2,
+      'Not so often': 1,
+      'Not at all': 0
+    },
+    "During the past 4 weeks, do you think you are going through a tough emotional situation?": {
+      'Yes Extremely': 4,
+      'Some sort of': 3,
+      'May be once or twice': 2,
+      'Have to think': 1,
+      'Not at all': 0
+    },
+    "During the past 4 weeks, how often did you get agitated?": {
+      'Very often': 4,
+      'Somewhat often': 3,
+      'May be once or twice': 2,
+      'Not so often': 1,
+      'Not at all': 0
+    }
+  }
   
   
   
@@ -100,14 +89,11 @@ export const Assessment = () => {
         // Fetch user data from the backend API using the userId
         const responseUserInfo = await axios.get(`/userdata/${userId}`);
         setUserinfo(responseUserInfo.data);
-        console.log("User Info", responseUserInfo.data);
   
         const responseUserData = await axios.get(`/personality-test/data/${userId}`);
         setUserData(responseUserData.data);
         setTestGiven(true);
-        console.log("personality-test", responseUserData.data);
       } catch (error) {
-        console.error('Error fetching user data:', error.message);
       }
     };
   

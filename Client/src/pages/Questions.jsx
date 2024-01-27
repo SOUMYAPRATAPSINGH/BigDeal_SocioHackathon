@@ -99,12 +99,10 @@ export const Questions = () => {
         // Fetch user data from the backend API using the userId
         const responseUserInfo = await axios.get(`/userdata/${userId}`);
         setUserinfo(responseUserInfo.data);
-        console.log("User Info", responseUserInfo.data);
   
         const responseUserData = await axios.get(`/personality-test/data/${userId}`);
         setUserData(responseUserData.data);
         setTestGiven(true);
-        console.log("personality-test", responseUserData.data);
       } catch (error) {
         console.error('Error fetching user data:', error.message);
       }
@@ -164,7 +162,6 @@ export const Questions = () => {
       agreeableness: A,
       neuroticism: C,
     };
-    console.log(personalityTestData);
 
     const openness= N;
     const conscientiousness= E
@@ -182,7 +179,6 @@ export const Questions = () => {
       });
   
       if (response.status === 200) {
-        console.log('Personality test data submitted successfully!');
         setTestGiven(true);
   
         // Reload the page after the test is submitted
