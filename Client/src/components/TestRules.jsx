@@ -4,10 +4,10 @@ import { Text, VStack, FormControl, FormLabel } from '@chakra-ui/react';
 import {motion} from 'framer-motion'
 export const TestRules = ({ agreementChecked, onAgreementChange }) => (
   <motion.div 
-    initial={{x:"100%"}}
-    animate={{x:"0%" }}
+    initial={{opacity:0}}
+    animate={{opacity:1 }}
     transition={ {ease:"easeIn",duration:0.80 }}
-    exit={{opacity:1}}>
+    exit={{opacity:0}}>
   <VStack spacing="4" align="center">
     <Text textAlign="center" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="bold" color="teal.800">
       Test Rules

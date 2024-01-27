@@ -4,7 +4,7 @@ import { Box, Image, Text } from "@chakra-ui/react";
 
 export const BookingDetails = ({ serviceName, companyName, img, price }) => (
   <Box className="book_container">
-    <Image src={img} alt="book_img" className="book_img" width={500} />
+    <Image src={img} alt="book_img" className="book_img" width={630} />
     <Text className="book_name" fontWeight="bold" fontSize="lg">
       {serviceName}
     </Text>

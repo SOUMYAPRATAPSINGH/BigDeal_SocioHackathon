@@ -1,39 +1,25 @@
 // Chakra imports
 import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
-  Grid,
-  Icon,
-  Input,
-  Stack,
-  Tab,
   TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
-  Text,
-  useColorModeValue
+  Text,Image
 } from "@chakra-ui/react";
 // Custom components
-import React, { useRef, useState } from "react";
+import React, {  useState } from "react";
+import image from "../assets/C.jpg";
 import {motion} from 'framer-motion'
-
+//  const [name,setName]=useState("hh")
+//  const [email,setemail] =useState("")
+import '@fontsource/ubuntu-mono';
 
 export const LandingPage=()=> {
   const textColor = 'green.200';
   const textColor2 ='yellow.500'
- 
-
-  const aboutTab = useRef();
-
-
+  const img =`${image}`
   return (
     <motion.div 
+    
     initial={{x:"100%"}}
     animate={{x:"0%" }}
     transition={ {ease:"easeIn",duration:0.80 }}
@@ -42,7 +28,8 @@ export const LandingPage=()=> {
       direction="column"
       minH="100vh"
       align="center"
-      pt={{ sm: "125px", lg: "75px" }}
+      
+      pt={{ sm: "125px", lg: "5px" }}
     >
       <Flex
         direction="column"
@@ -51,19 +38,35 @@ export const LandingPage=()=> {
       >
         <Text
           color={textColor}
-          fontSize={{ sm: "2xl", md: "3xl", lg: "4xl" }}
+          fontSize={{ sm: "2xl", md: "3xl", lg: "8xl" }}
           fontWeight="bold"
-          mb="8px"
+          mb="9px"    
+             
         >
-          Build your profile
+          Eunoia
         </Text>
         <Text
           color="gray.400"
           fontWeight="normal"
           fontSize={{ sm: "sm", md: "lg" }}
         >
-          This information will let us know more about you.
+          A mental health support system with the power of AI.
         </Text>
+        <Text
+          color="gray.400"
+          fontWeight="normal"
+          fontSize={{ sm: "sm", md: "lg" }}
+        >
+          One idea can change minds.
+        </Text>
+        <Text
+          color="yellow.600"
+          fontWeight="bold"
+          fontSize={{ sm: "sm", md: "lg" }}
+        >
+          One advise can save people.
+        </Text>
+        <Image src={img} h={'66vh'}></Image>
       </Flex>
       <Tabs variant="unstyled" mt="24px" display="flex" flexDirection="column">
         <TabList
@@ -72,21 +75,9 @@ export const LandingPage=()=> {
           alignSelf="center"
           justifySelf="center"
         >
-          <Tab
-            ref={aboutTab}
-            _focus="none"
-            w={{ sm: "120px", md: "250px", lg: "300px" }}
-            onClick={() =>
-              setActiveBullets({
-                about: true,
-                account: false,
-                address: false
-              })
-            }
-          >
-            
-           
-        </Tab>
+          <Text>
+            hello
+          </Text>
         </TabList>
       </Tabs>
     </Flex>

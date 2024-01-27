@@ -9,13 +9,13 @@ import {
 import { Sidebar } from '../components/Sidebar.jsx';
 import { UserProfile } from '../pages/UserProfile.jsx';
 import { animate, easeIn, motion } from 'framer-motion'
-
+import '../pages/HomePage.css'
 export const IntakeForm = () => {
   const [isMobile] = useMediaQuery('(max-width: 600px)');
 
   return (
     <motion.div
-    
+    className='Home'
     >
     <Flex direction={isMobile ? 'column' : 'row'} minH="100vh" bgColor={'black'} color="white">
       {/* Sidebar */}
@@ -32,7 +32,7 @@ export const IntakeForm = () => {
         {/* Footer component */}
         <Box mt="auto" textAlign="center">
           <Text fontSize="sm" color="gray.500">
-            &copy; 2023 Naruto Dashboard. All rights reserved.
+            &copy; Eunoia. All rights reserved.
           </Text>
         </Box>
       </Flex>

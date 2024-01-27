@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, VStack, FormControl, FormLabel } from '@chakra-ui/react';
 
 export const Rules = ({ agreementChecked, onAgreementChange }) => (
-  <VStack spacing="4" align="center">
+  <VStack spacing="4" align="center" >
     <Text textAlign="center" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="bold" color="teal.800">
       Rules
     </Text>

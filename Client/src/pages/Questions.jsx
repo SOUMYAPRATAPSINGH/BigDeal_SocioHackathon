@@ -11,6 +11,7 @@ import {
 Flex,
 
 } from '@chakra-ui/react';
+import {motion } from 'framer-motion'
 import { Sidebar } from '../components/Sidebar.jsx';
 import {TestRules} from '../components/TestRules.jsx';
 import {QuestionsForm} from '../components/QuestionsForm.jsx';
@@ -207,13 +208,19 @@ export const Questions = () => {
   };
 
   return (
-    <Flex direction={{ base: 'column', md: 'row' }} minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white">
+    <motion.div 
+    
+    initial={{x:"100%"}}
+    animate={{x:"0%" }}
+    transition={ {ease:"easeIn",duration:0.80 }}
+    exit={{opacity:1}}>
+    <Flex direction={{ base: 'column', md: 'row' }} minH="100vh"  color="white">
       <Sidebar display={{ base: 'none', md: 'solid' }} />
       <Flex flex="1" direction="column" p="8" ml={{ base: '0', md: '260px' }}>
         {testGiven ? (
           <ResultComponent userData={userData} userinfo={userinfo}/>
         ) : (
-          <Box p="6" bg="white" borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
+          <Box p="6" bgColor={'black'} borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
             <Container maxW="xl" centerContent>
               <Box
                 display={{ base: 'block', md: 'flex' }}
@@ -225,7 +232,7 @@ export const Questions = () => {
                 borderRadius="lg"
                 borderWidth="1px"
               >
-                <Text fontSize={{ base: '4xl', md: '2xl' }} fontFamily="Work Sans" color="black">
+                <Text fontSize={{ base: '4xl', md: '2xl' }}  color="black">
                   Personality Test
                 </Text>
               </Box>
@@ -268,5 +275,6 @@ export const Questions = () => {
         </Box>
       </Flex>
     </Flex>
+    </motion.div>
   );
 };

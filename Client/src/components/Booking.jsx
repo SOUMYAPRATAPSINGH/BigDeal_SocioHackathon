@@ -7,7 +7,7 @@ import { BookingDetails } from "./BookingDetails";
 import { FormInputs } from "./FormInputs";
 import { BookButton } from "./BookButton";
 import image from "../assets/hello.jpg";
-
+import {motion } from 'framer-motion'
 export const Booking = () => {
   const [appointmentDetails, setAppointmentDetails] = useState({
     date: "",
@@ -134,11 +134,17 @@ export const Booking = () => {
   };
 
   return (
+    <motion.div className='Home' 
+    initial={{opacity:0,y:"100%"}}
+    animate={{sacle:1,opacity:1, y:"0%"}}
+    transition={{ease:"easeIn",duration:0.30}}
+    exit={{opacity:0}}
+    
+    >
     <VStack spacing={4} p={4} width="auto">
       <Box
-        borderWidth="1px"
-        borderRadius="md"
-        color="black"
+        
+        color="yellow.700"
         width="auto"
         justifyContent={"center"}
         p={4}
@@ -160,5 +166,6 @@ export const Booking = () => {
 
       {invoiceData && <Invoice invoiceData={invoiceData} />}
     </VStack>
+    </motion.div>
   );
 };

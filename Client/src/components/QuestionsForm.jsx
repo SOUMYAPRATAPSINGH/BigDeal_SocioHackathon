@@ -72,7 +72,7 @@ export const QuestionsForm = ({
   };
 
   return (
-    <VStack w="100%" align="start" spacing="4">
+    <VStack w="100%" align="start"  spacing="4">
       <FormControl as="fieldset" w="100%">
         <FormLabel
           fontSize={{ base: 'md', md: 'lg' }}
