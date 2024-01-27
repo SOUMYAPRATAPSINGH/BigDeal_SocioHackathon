@@ -1,7 +1,6 @@
 .Home {
-    background-image: linear-gradient(to right, #eef9f9, #602af5), url('../../src/assets/OpenUp.jpg');
+    background-image: linear-gradient(to right, #89f7fe, #66a6ff), url('../../src/assets/OpenUp.jpg');
     background-size: cover;
     background-position: center;
-    height: 150vh;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; /* Adjust the height as needed */
+    height: 150vh; /* Adjust the height as needed */
 }

@@ -1,4 +1,4 @@
-
+import React from 'react'
 import {Container, Box, Text} from "@chakra-ui/react"
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import Login from "../components/Login.jsx"
@@ -12,17 +12,16 @@ export const HomePage = () => {
           display={"flex"}
           justifyContent="center"
           p={3}
-          fontFamily={"monospace"}
           bg={'white'}
           w="100%"
           m="40px 0 15px 0"
           borderRadius="lg"
           borderWidth="1px"
           >
-              <Text fontSize='5xl' fontFamily="" color="black">Eunoia</Text>
+              <Text fontSize='4xl' fontFamily="Work Sans" color="black">Eunoia</Text>
           </Box>
 
-          <Box bg="" w='100%' p={4} borderRadius='lg' borderWidth="1px">
+          <Box bg="white" w='100%' p={4} borderRadius='lg' borderWidth="1px">
 
           <Tabs variant='soft-rounded'>
           <TabList>

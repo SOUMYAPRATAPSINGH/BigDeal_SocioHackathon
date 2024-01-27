@@ -1,9 +1,47 @@
-import React, { useState } from 'react';
-import { FormControl, FormLabel, FormHelperText, RadioGroup, Radio, VStack, Button, Text, Spinner } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  RadioGroup,
+  Radio,
+  VStack,
+  Button,
+  Text,
+  Spinner,
+} from '@chakra-ui/react';
 
-export const QuestionsForm = ({ currentQuestion, questions, options, selectedOptions, onOptionChange, onNextQuestion, onSubmit, timer }) => {
+export const QuestionsForm = ({
+  currentQuestion,
+  questions,
+  options,
+  selectedOptions,
+  onOptionChange,
+  onNextQuestion,
+  onSubmit,
+  timer,
+}) => {
   const [isAnswerSelected, setIsAnswerSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [speechSynthesis, setSpeechSynthesis] = useState(null);
+
+  useEffect(() => {
+    if ('speechSynthesis' in window) {
+      const synthesis = window.speechSynthesis;
+      setSpeechSynthesis(synthesis);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (speechSynthesis) {
+      speakQuestion(questions[currentQuestion]);
+    }
+  }, [currentQuestion, speechSynthesis]);
+
+  const speakQuestion = (text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  };
 
   const handleOptionChange = (optionValue) => {
     onOptionChange(optionValue);
@@ -36,7 +74,11 @@ export const QuestionsForm = ({ currentQuestion, questions, options, selectedOpt
   return (
     <VStack w="100%" align="start" spacing="4">
       <FormControl as="fieldset" w="100%">
-        <FormLabel fontSize={{ base: 'md', md: 'lg' }} color="teal.500" textAlign="start">
+        <FormLabel
+          fontSize={{ base: 'md', md: 'lg' }}
+          color="teal.500"
+          textAlign="start"
+        >
           {currentQuestion + 1}. {questions[currentQuestion]}
         </FormLabel>
         <RadioGroup value={selectedOptions[currentQuestion] || ''}>
@@ -50,8 +92,14 @@ export const QuestionsForm = ({ currentQuestion, questions, options, selectedOpt
                 size="md"
                 onChange={() => handleOptionChange(optionValue)}
                 style={{
-                  backgroundColor: selectedOptions[currentQuestion] === optionValue ? 'black' : 'white',
-                  color: selectedOptions[currentQuestion] === optionValue ? 'white' : 'black',
+                  backgroundColor:
+                    selectedOptions[currentQuestion] === optionValue
+                      ? 'black'
+                      : 'white',
+                  color:
+                    selectedOptions[currentQuestion] === optionValue
+                      ? 'white'
+                      : 'black',
                 }}
               >
                 {optionKey}
@@ -70,17 +118,29 @@ export const QuestionsForm = ({ currentQuestion, questions, options, selectedOpt
         ) : (
           <>
             {currentQuestion === questions.length - 1 ? (
-              <Button w="100%" colorScheme="teal" onClick={handleSubmit} disabled={!isAnswerSelected}>
+              <Button
+                w="100%"
+                colorScheme="teal"
+                onClick={handleSubmit}
+                disabled={!isAnswerSelected}
+              >
                 Submit
               </Button>
             ) : (
-              <Button w="" colorScheme="teal" onClick={handleNextQuestion} disabled={!isAnswerSelected}>
+              <Button
+                w=""
+                colorScheme="teal"
+                onClick={handleNextQuestion}
+                disabled={!isAnswerSelected}
+              >
                 Next Question
               </Button>
             )}
           </>
         )}
-        <Text color="gray.800">{`Time remaining: ${Math.floor(timer / 60)}:${timer % 60}`}</Text>
+        <Text color="gray.800">{`Time remaining: ${Math.floor(
+          timer / 60
+        )}:${timer % 60}`}</Text>
       </VStack>
     </VStack>
   );

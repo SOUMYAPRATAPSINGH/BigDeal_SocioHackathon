@@ -2,8 +2,7 @@ import {useState, useEffect} from 'react';
 import axios from "axios";
 import { useUser } from '../userContext.jsx';
 import logo from "../assets/OpenUp.jpg"
-import Webcam from 'react-webcam';
-
+import {FaceDetectionComponent} from "./FaceDetectionComponent.jsx"
 import {
   VStack,
   Button,
@@ -214,65 +213,60 @@ export const Assessment = () => {
 
   return (
     <Flex direction={{ base: 'column', md: 'row' }} minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white">
-      <Sidebar display={{ base: 'none', md: 'solid' }} />
-      <Flex flex="1" direction="column" p="8" ml={{ base: '0', md: '260px' }}>
-        {testGiven ? (
-          <ResultComponent userData={userData} userinfo={userinfo}/>
-        ) : (
-          <Box p="6" bg="white" borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
-            <Container maxW="xl" centerContent>
-              <Box
-                display={{ base: 'block', md: 'flex' }}
-                justifyContent="center"
-                p={3}
-                bg={'white'}
-                w="100%"
-                m={{ base: '40px 0 15px 0', md: '20px 0 15px 0' }}
-                borderRadius="lg"
-                borderWidth="1px"
-              >
-                <Text fontSize={{ base: '4xl', md: '2xl' }} fontFamily="Work Sans" color="black">
-                  Personality Test
-                </Text>
-              </Box>
-            </Container>
-            <VStack align="center" spacing="4" mt="4">
-              <Webcam height={400} width={400}/>
+    <Sidebar display={{ base: 'none', md: 'solid' }} />
+    <Flex flex="1" direction="column" p="8" ml={{ base: '0', md: '260px' }}>
+      {testGiven ? (
+        <ResultComponent userData={userData} userinfo={userinfo} />
+      ) : (
+        <Box p="6" bg="white" borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
+          <Container maxW="xl" centerContent>
+            <Box
+              display={{ base: 'block', md: 'flex' }}
+              justifyContent="center"
+              p={3}
+              bg={'white'}
+              w="100%"
+              m={{ base: '40px 0 15px 0', md: '20px 0 15px 0' }}
+              borderRadius="lg"
+              borderWidth="1px"
+            >
+              <Text fontSize={{ base: '4xl', md: '2xl' }} fontFamily="Work Sans" color="black">
+                Personality Test
+              </Text>
+            </Box>
+          </Container>
+          <VStack align="center" spacing="4" mt="4">
+            <FaceDetectionComponent  />
 
-              {!testStarted && <Rules agreementChecked={agreementChecked} onAgreementChange={setAgreementChecked} />}
+            {!testStarted && <Rules agreementChecked={agreementChecked} onAgreementChange={setAgreementChecked} />}
 
-              {testStarted && currentQuestion < questions.length && (
-                <QuestionsForm
-                  currentQuestion={currentQuestion}
-                  questions={questions}
-                  options={questionsWithOptions[questions[currentQuestion]]}
-                  selectedOptions={selectedOptions}
-                  onOptionChange={handleOptionChange}
-                  onNextQuestion={handleNextQuestion}
-                  onSubmit={handleSubmission}
-                  timer={timer}
-                />
-              )}
+            {testStarted && currentQuestion < questions.length && (
+              <QuestionsForm
+                currentQuestion={currentQuestion}
+                questions={questions}
+                options={questionsWithOptions[questions[currentQuestion]]}
+                selectedOptions={selectedOptions}
+                onOptionChange={handleOptionChange}
+                onNextQuestion={handleNextQuestion}
+                onSubmit={handleSubmission}
+                timer={timer}
+              />
+            )}
 
-              {!testStarted && (
-                <Button
-                  colorScheme="teal"
-                  onClick={startTest}
-                  isDisabled={!agreementChecked}
-                  mt="4"
-                >
-                  Start Test
-                </Button>
-              )}
-            </VStack>
-          </Box>
-        )}
-        <Box mt="auto" textAlign="center">
-          <Text fontSize="sm" color="gray.500">
-            &copy; 2024 Eunoia. All rights reserved.
-          </Text>
+            {!testStarted && (
+              <Button colorScheme="teal" onClick={startTest} isDisabled={!agreementChecked} mt="4">
+                Start Test
+              </Button>
+            )}
+          </VStack>
         </Box>
-      </Flex>
+      )}
+      <Box mt="auto" textAlign="center">
+        <Text fontSize="sm" color="gray.500">
+          &copy; 2024 Eunoia. All rights reserved.
+        </Text>
+      </Box>
     </Flex>
-  );
+  </Flex>
+);
 };
