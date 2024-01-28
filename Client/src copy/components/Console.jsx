@@ -684,8 +684,8 @@ export const Console=({
       </div>
 
       <Toolbar
-        activityDetection={activityDetection}
-        handleMicrophoneSubmit={handleMicrophoneSubmit}
+        // activityDetection={activityDetection}
+        // handleMicrophoneSubmit={handleMicrophoneSubmit}
         currentSession={currentSession}
         detectionSettings={detectionSettings}
         setDetectionSettings={setDetectionSettings}

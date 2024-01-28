@@ -12,6 +12,7 @@ const multer = require("multer");
 const app = express();
 const port = 3000;
 const AWS = require("aws-sdk");
+const pako=require("pako")
 app.use(cors());
 app.use(express.json());
 env.config();
@@ -97,7 +98,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const upload = multer();
-app.use(express.json()); // Add this line to parse JSON in the request body
+app.use(express.json({ limit: "1500mb" }));
+app.use(express.urlencoded({ extended: true, limit: "1500mb" }));
 
 
 async function getPrompt(prompt) {
@@ -127,13 +129,21 @@ app.post("/api/chat", upload.single("audio"), async (req, res) => {
     console.log("Received request with body:", req.body);
 
     sessionResponse.messages = req.body.messages;
-
-    if (req.file) {
-      const audioBuffer = Buffer.from(req.file.buffer);
-      const response = await openaiApi.createTranscription(
-        audioBuffer,
-        "whisper-1"
-      );
+    console.log(req.body.audio)
+    if (req.body.audio) {
+      // Assuming req.body.audio is a base64-encoded string
+      const base64Audio = req.body.audio;
+      const base64Data = base64Audio.replace(/\s/g, ''); // Remove line breaks and whitespaces
+    
+      // Compress the audio data using pako
+      const compressedData = pako.deflate(base64Data);
+    
+      const trimmedAudio = { compressedData };
+    
+      const buf = Buffer.from(compressedData, "base64");
+      buf.name = "sound.webm";
+  
+      const response = await getPrompt(buf, `whisper-1`);
 
       console.log("Transcription response:", response.data);
 
@@ -147,50 +157,49 @@ app.post("/api/chat", upload.single("audio"), async (req, res) => {
     console.log("sessionResponse.messages___________________", sessionResponse.messages);
 
     // Fetch chat completion response from OpenAI API
-    const chatCompletionResponse = await getPrompt(sessionResponse.messages);
+    try {
+      const chatCompletionResponse = await getPrompt(sessionResponse.messages);
 
-    console.log("___________________", chatCompletionResponse.choices[0].message.content);
+      console.log("___________________", chatCompletionResponse.choices[0].message.content);
 
-    if (
-      chatCompletionResponse &&
-      chatCompletionResponse.choices &&
-      chatCompletionResponse.choices.length > 0 &&
-      chatCompletionResponse.choices[0].message
-    ) {
-      const lastChatMessage = chatCompletionResponse.choices[0].message;
+      if (
+        chatCompletionResponse &&
+        chatCompletionResponse.choices &&
+        chatCompletionResponse.choices.length > 0 &&
+        chatCompletionResponse.choices[0].message
+      ) {
+        const lastChatMessage = chatCompletionResponse.choices[0].message;
 
-      sessionResponse.messages.push({
-        role: lastChatMessage.role,
-        content: lastChatMessage.content,
-      });
+        sessionResponse.messages.push({
+          role: lastChatMessage.role,
+          content: lastChatMessage.content,
+        });
 
-      const pollyParams = {
-        Text: lastChatMessage.content,
-        OutputFormat: "mp3",
-        VoiceId: req.body.voiceId || "Joanna",
-        Engine: "neural",
-      };
-      console.log('----------------------------------------------',pollyParams)
-      Polly.synthesizeSpeech(pollyParams, (err, data) => {
-        if (err) {
-          console.log("Error synthesizing speech:", err);
-          res.status(500).json({ error: "Error synthesizing speech" });
-        } else if (data) {
-          const audioBuffer = Buffer.from(data.AudioStream);
-          const audioDataURI = `data:${data.ContentType};base64,${audioBuffer.toString(
-            "base64"
-          )}`;
+        const pollyParams = {
+          Text: lastChatMessage.content,
+          OutputFormat: "mp3",
+          VoiceId: req.body.voiceId || "Joanna",
+          Engine: "neural",
+        };
+        console.log('----------------------------------------------',pollyParams)
+        Polly.synthesizeSpeech(pollyParams, (err, data) => {
+          if (err) {
+            console.log("Error synthesizing speech:", err);
+            res.status(500).json({ error: "Error synthesizing speech" });
+          } else if (data) {
+            const audioBuffer = Buffer.from(data.AudioStream);
+            const audioDataURI = `data:${data.ContentType};base64,${audioBuffer.toString(
+              "base64"
+            )}`;
+            data.audioDataURI = audioDataURI;
 
-          sessionResponse.audioResponse = {
-            audioDataURI,
-            contentType: data.ContentType,
-          };
-
-          console.log("Session response:", sessionResponse);
-          res.status(200).json(sessionResponse);
-        }
-      });
-    } else {
+            sessionResponse.audio = data;
+            console.log("Session response:", sessionResponse);
+            res.status(200).json(sessionResponse);
+          }
+        });
+      } 
+    } catch (err) {
       console.error("Invalid or empty response from OpenAI API");
       res.status(500).json({ error: "Invalid or empty response from OpenAI API" });
     }
@@ -199,7 +208,6 @@ app.post("/api/chat", upload.single("audio"), async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 
 // Signup route with JWT token

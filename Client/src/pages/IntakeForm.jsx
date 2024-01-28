@@ -28,7 +28,7 @@ export const IntakeForm = () => {
         {/* Footer component */}
         <Box mt="auto" textAlign="center">
           <Text fontSize="sm" color="gray.500">
-            &copy; 2023 Naruto Dashboard. All rights reserved.
+            &copy; 2024 Eunoia. All rights reserved.
           </Text>
         </Box>
       </Flex>

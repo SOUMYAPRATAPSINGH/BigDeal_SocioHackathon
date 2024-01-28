@@ -90,7 +90,7 @@ const Login = () => {
 
         // Continue with your navigation logic
         setSessionTimeoutCallback();
-        history.push("/dash");
+        history.push("/intake-form");
       } else {
         showAlert('Error', 'Invalid email or password', 'error');
       }

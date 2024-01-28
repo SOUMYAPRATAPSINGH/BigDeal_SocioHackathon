@@ -4,7 +4,7 @@ import QRCode from "react-qr-code";
 
 export const Invoice = ({ invoiceData, handlePrint }) => {
   const componentRef = useRef();
-
+ console.log("Invoice")
   return (
     <Box
       borderWidth="1px"
