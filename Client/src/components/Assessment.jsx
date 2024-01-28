@@ -7,11 +7,13 @@ import {
   VStack,
   Button,
   Text,
- Image,Container,
+ Container,
  Box,
 Flex,
 
 } from '@chakra-ui/react';
+import '../pages/HomePage.css'
+import {motion} from 'framer-motion'
 import { Sidebar } from '../components/Sidebar.jsx';
 import {Rules} from '../components/Rules.jsx';
 import {QuestionsForm} from '../components/QuestionsForm.jsx';
@@ -198,6 +200,13 @@ export const Assessment = () => {
   };
 
   return (
+    <motion.div 
+    
+    className='Home'
+    initial={{y:"100%"}}
+    animate={{y:"0%" }}
+    transition={ {ease:"easeIn",duration:0.80 }}
+    exit={{opacity:1}}>
     <Flex direction={{ base: 'column', md: 'row' }} minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white">
     <Sidebar display={{ base: 'none', md: 'solid' }} />
     <Flex flex="1" direction="column" p="8" ml={{ base: '0', md: '260px' }}>
@@ -254,5 +263,6 @@ export const Assessment = () => {
       </Box>
     </Flex>
   </Flex>
+  </motion.div>
 );
 };

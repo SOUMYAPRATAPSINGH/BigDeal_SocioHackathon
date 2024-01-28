@@ -14,9 +14,13 @@ export const IntakeForm = () => {
   const [isMobile] = useMediaQuery('(max-width: 600px)');
 
   return (
-    <motion.div
+    <motion.div 
+    
     className='Home'
-    >
+    initial={{opacity:0}}
+    animate={{opacity:1}}
+    transition={ {ease:"easeOut",duration:0.5 }}
+    exit={{opacity:0}}>
     <Flex direction={isMobile ? 'column' : 'row'} minH="100vh" bgColor={'black'} color="white">
       {/* Sidebar */}
       {isMobile ? null : <Sidebar />}
@@ -24,7 +28,7 @@ export const IntakeForm = () => {
       {/* Main Content */}
       <Flex flex="1" direction="column" p="4" ml={isMobile ? '0' : '300px'}>
         {/* Main Content */}
-        <Box p="4" bg="white" borderRadius="md" boxShadow="md" mb="4" id="IntakeForm">
+        <Box p="4" bg="black" borderRadius="md" boxShadow="md" mb="4" id="IntakeForm">
           {/* Questions */}
           <UserProfile />
         </Box>

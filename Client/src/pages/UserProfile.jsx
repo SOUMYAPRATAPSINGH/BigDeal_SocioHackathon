@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useUser } from '../userContext.jsx'; 
 import {
   Flex,
   HStack,
@@ -16,21 +18,40 @@ import {
   Text,
 } from '@chakra-ui/react';
 
+
 export const UserProfile = () => {
+  const { userId } = useUser(); // Use the useUser hook to get userId
+  const [userData, setUserData] = useState(null); 
+  useEffect(() => {
+    // Fetch user data from the backend API using the userId
+    
+    const getUserData = async () => {
+      try {
+        const response = await axios.get(`/userdata/${userId}`);
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error.message);
+      }
+    }
+  
+    if (userId) {
+      getUserData();
+    }
+  }, [userId]); 
   return (
     <div>
       <Flex p="8" align="center" justify="center" direction="column">
         <Box>
-          <Avatar size="2xl" name="John Doe" src="url_to_patient_photo.jpg" />
+          <Avatar size="2xl" name={userData && userData.name} src="" />
         </Box>
 
         {/* Personal Information */}
         <div>
           <Text fontSize="xl" fontWeight="bold" mb="4" color="teal">
-            Personal Information
+          {userData && userData.name} 's information.
           </Text>
         </div>
-        <HStack spacing="8" align="start" color="black">
+        <HStack spacing="8" align="start" color="gray.200">
           <VStack spacing="4" align="start">
             <FormControl id="patientName">
               <FormLabel>Name</FormLabel>
@@ -106,7 +127,7 @@ export const UserProfile = () => {
             Informant Section
           </Text>
         </div>
-        <HStack spacing="20" align="start" color="black">
+        <HStack spacing="20" align="start" color="gray.200">
           <VStack spacing="4" align="start">
             <FormControl id="relationshipToPatient">
               <FormLabel>Relationship to Patient</FormLabel>
@@ -141,7 +162,7 @@ export const UserProfile = () => {
             Chief Complaints
           </Text>
         </div>
-        <HStack spacing="7" align="start" color="black">
+        <HStack spacing="7" align="start" color="gray.200">
           <VStack spacing="4" align="start">
             <FormControl id="chiefComplaint1">
               <FormLabel>Chief Complaint 1</FormLabel>
