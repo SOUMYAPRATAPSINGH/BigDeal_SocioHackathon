@@ -42,8 +42,16 @@ export const UserProfile = () => {
       getUserData();
     }
   }, [userId]);
+  let num;
 
-  const handlePersonalityTest = () => {
+if (userData) {
+  num = userData.adviceScore;
+} else {
+  num =0
+}
+
+const score = num ? Math.round((num / 28) * 100) : 0; 
+const handlePersonalityTest = () => {
     console.log("Starting Personality Test...");
   };
 
@@ -52,7 +60,7 @@ export const UserProfile = () => {
   };
 
   const isMobile = useBreakpointValue({ base: true, md: false });
-
+   
   
 
   return (
@@ -94,11 +102,11 @@ export const UserProfile = () => {
             Mental Health Status Tracker
           </Text>
           <Progress colorScheme="teal" value={mentalHealthStatus} size="md" />
-          <CircularProgress value={40} color='green.400'>
-            <CircularProgressLabel>40%</CircularProgressLabel>
+          <CircularProgress value={`${userData && score}`} color='green.400'>
+            <CircularProgressLabel color="black">{userData && score}%</CircularProgressLabel>
           </CircularProgress>
           <Text fontSize="sm" color="gray.500">
-            Current Mental Health Status: {mentalHealthStatus}%
+            Current Mental Health Status: {score}%
           </Text>
 
           <Text color="black" as="h2" className="sr-only">
@@ -112,7 +120,7 @@ export const UserProfile = () => {
 
             <Spacer />
 
-          < StepperComponent/>
+          < StepperComponent score={score}/>
           </Flex>
         </VStack>
       </Box>
@@ -130,22 +138,20 @@ export const UserProfile = () => {
           Advice
         </Text>
         <Text mt={8} fontSize="sm" color="gray.500">
-          "Mental health is crucial for overall well-being. It affects how we
-          think, feel, and handle stress. Prioritizing mental health fosters
-          resilience, positive relationships, and a fulfilling life journey."
+        A counselor provides empathetic guidance, helping individuals navigate challenges, explore emotions, and develop coping strategies. Through active listening and support, counselors empower clients to enhance their well-being and make positive life choices.
         </Text>
-        <Textarea
+        <Text
           id="OrderNotes"
           mt="2"
           rounded="lg"
           border="1px"
           borderColor="gray.200"
           boxShadow="sm"
-          fontSize="sm"
+          fontSize="md"
           rows="4"
-          color="black"
+          color="green"
           placeholder="Test not taken..."
-        />
+        > {userData && userData.advice}</Text>
         <Spacer/>
         <Button
           mt={3}
@@ -158,50 +164,51 @@ export const UserProfile = () => {
       </Box>
 
       <Flex
-        mt={5}
-        bg="gray.100"
-        borderRadius={10}
-        align="center"
-        px={{ base: 4, md: 6, lg: 8 }}
-        py={8}
-        direction={isMobile ? "column" : "row"}
-        color={"black"}
-      >
-        <VStack spacing={8} align="start" ml={isMobile ? 0 : 8}>
-          <Text fontSize="lg" fontWeight="bold" color="gray.900">
-            Personality Test Session
-          </Text>
-          <Text fontSize="sm" color="gray.500">
-            "Mental health is crucial for overall well-being. It affects how we
-            think, feel, and handle stress. Prioritizing mental health fosters
-            resilience, positive relationships, and a fulfilling life journey."
-          </Text>
-          <HStack justify="space-between" spacing={20}>
-            <CircularProgress value={40} color='green.400'>
-              <CircularProgressLabel>40%</CircularProgressLabel>
-            </CircularProgress>
-            <CircularProgress value={40} color='green.400'>
-              <CircularProgressLabel>40%</CircularProgressLabel>
-            </CircularProgress>
-            <CircularProgress value={40} color='green.400'>
-              <CircularProgressLabel>40%</CircularProgressLabel>
-            </CircularProgress>
-            <CircularProgress value={40} color='green.400'>
-              <CircularProgressLabel>40%</CircularProgressLabel>
-            </CircularProgress>
-            <CircularProgress value={40} color='green.400'>
-              <CircularProgressLabel>40%</CircularProgressLabel>
-            </CircularProgress>
-          </HStack>
-          <Button
-            colorScheme="teal"
-            variant="solid"
-            onClick={handlePersonalityTest}
-          >
-           <Link to="/personality-test">View Results </Link> 
-          </Button>
-        </VStack>
-      </Flex>
+  mt={5}
+  bg="gray.100"
+  borderRadius={10}
+  align="center"
+  px={{ base: 4, md: 6, lg: 8 }}
+  py={8}
+  direction={isMobile ? "column" : "row"}
+  color={"black"}
+>
+  <VStack spacing={8} align="start" ml={isMobile ? 0 : 8} width={isMobile ? "100%" : "auto"}>
+    <Text fontSize="lg" fontWeight="bold" color="gray.900">
+      Personality Test Session
+    </Text>
+    <Text fontSize="sm" color="gray.500">
+      Personality tests offer valuable insights into individual traits, behaviors, and preferences, fostering self-awareness. They aid in career choices, relationship dynamics, and personal growth, enhancing overall understanding and development.
+    </Text>
+    <HStack justify="space-between" spacing={isMobile ? 4 : 20} width="100%">
+      <CircularProgress value={40} color='green.400'>
+        <CircularProgressLabel>59%</CircularProgressLabel>
+      </CircularProgress>
+      <CircularProgress value={40} color='green.400'>
+        <CircularProgressLabel>50%</CircularProgressLabel>
+      </CircularProgress>
+      <CircularProgress value={40} color='green.400'>
+        <CircularProgressLabel>70%</CircularProgressLabel>
+      </CircularProgress>
+      <CircularProgress value={40} color='green.400'>
+        <CircularProgressLabel>80%</CircularProgressLabel>
+      </CircularProgress>
+      <CircularProgress value={40} color='green.400'>
+        <CircularProgressLabel>90%</CircularProgressLabel>
+      </CircularProgress>
+    </HStack>
+    <Button
+      colorScheme="teal"
+      variant="solid"
+      onClick={handlePersonalityTest}
+      mt={isMobile ? 4 : 0}
+      width={isMobile ? "100%" : "auto"}
+    >
+      <Link to="/personality-test">View Results </Link>
+    </Button>
+  </VStack>
+</Flex>
+
     </div>
   );
 };

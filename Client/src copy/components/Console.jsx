@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {Toolbar} from "../components/Toolbar/Toolbar";
+// import {Toolbar} from "../components/Toolbar/Toolbar";
 import styles from "../styles/Console.module.css";
 import {Prompt} from "../components/Dropdown/Prompt";
 
@@ -71,19 +71,19 @@ export const Console=({
     return false;
   }
 
-  function handleMicrophoneSubmit(event) {
-    event.preventDefault();
+  // function handleMicrophoneSubmit(event) {
+  //   event.preventDefault();
 
-    if (currentSession.current == null) {
-      currentSession.current = interview();
-      currentSession.current.recorder.record();
-    } else {
-      if (activityDetection == 0) {
-        currentSession.current.recorder.record();
-      }
-    }
-    setRerender(rerender + 1);
-  }
+  //   if (currentSession.current == null) {
+  //     currentSession.current = interview();
+  //     currentSession.current.recorder.record();
+  //   } else {
+  //     if (activityDetection == 0) {
+  //       currentSession.current.recorder.record();
+  //     }
+  //   }
+  //   setRerender(rerender + 1);
+  // }
 
   function resetPrompt() {
     const { personalityOptions, questionTypes, feedback } =
@@ -93,7 +93,7 @@ export const Console=({
     console.log(interviewerQuestions,"__________________", personalityOptions, questionTypes, feedback)
     // Construct prompt based on interview settings
     let interviewerPrompt =
-    "Your role is to provide empathetic and supportive responses. Encourage the user to share their feelings, concerns, or experiences. Ask open-ended questions to facilitate the conversation and offer guidance when appropriate.";
+    "I m here to provide empathetic and supportive responses. Encourage the you to share their feelings, concerns, or experiences.";
 
     if (feedback) {
       interviewerPrompt +=
@@ -159,7 +159,7 @@ export const Console=({
 
   function interview() {
     // Set the activity detection to 0, meaning that the microphone is not listening for activity
-    setActivityDetection(0);
+    // setActivityDetection(0);
 
     // Reset the prompt
     resetPrompt();
@@ -180,17 +180,17 @@ export const Console=({
      const recorderInstance = () => {
       let currentRecording = null;
 
-      function record() {
-        if (stopped) {
-          stop();
-          return;
-        }
-        setActivityDetection(1);
-        if(currentRecording != null){
-          clear();
-        }
-        currentRecording = collectAudio();
-      }
+      // function record() {
+      //   if (stopped) {
+      //     stop();
+      //     return;
+      //   }
+      //   setActivityDetection(1);
+      //   if(currentRecording != null){
+      //     clear();
+      //   }
+      //   currentRecording = collectAudio();
+      // }
 
       function clear() {
         if(currentRecording != null){
@@ -200,7 +200,7 @@ export const Console=({
       }
 
       return {
-        record: record,
+        // record: record,
         clear: clear,
       };
     };
@@ -488,6 +488,7 @@ export const Console=({
 
   return (
     <div>
+      
       <div className={styles.Console}>
         <Prompt
           selectedPrompt={selectedPrompt}
@@ -539,7 +540,7 @@ export const Console=({
                   </span>
                   {message.audio && (
                     <>
-                      <audio
+                      {/* <audio
                         className={styles.Audio}
                         controls
                         ref={(audio) => {
@@ -560,7 +561,7 @@ export const Console=({
                           src={message.audio.audioDataURI}
                           type={message.audio.ContentType}
                         />
-                      </audio>
+                      </audio> */}
                     </>
                   )}
                 </div>
@@ -588,7 +589,7 @@ export const Console=({
                         onEnded={() => {
                           // Set an if event to check if there's a function on message.audio.onEnded, and if so, call it
                           if (message.onEnded) {
-                            message.onEnded();
+                            // message.onEnded();
                             // clear the onEnded function
                             message.onEnded = null;
                           }
@@ -683,7 +684,7 @@ export const Console=({
         </form>
       </div>
 
-      <Toolbar
+      {/* <Toolbar
         // activityDetection={activityDetection}
         // handleMicrophoneSubmit={handleMicrophoneSubmit}
         currentSession={currentSession}
@@ -703,7 +704,7 @@ export const Console=({
         preprocessedJobDescription={preprocessedJobDescription}
         setPreprocessedJobDescription={setPreprocessedJobDescription}
         interviewSettings={interviewSettings}
-      ></Toolbar>
+      ></Toolbar> */}
     </div>
   );
 }

@@ -59,6 +59,13 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'PersonalityTest',
   },
+  advice: {
+    type:String,
+    default:"Test Not Taken",
+  },
+  adviceScore:{type:Number,
+    default:0,
+  }
 });
 
 const personalityTestSchema = new mongoose.Schema({
@@ -77,6 +84,7 @@ const personalityTestSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
+
 });
 
 const User = mongoose.model('User', userSchema);
@@ -102,7 +110,7 @@ app.use(express.json({ limit: "1500mb" }));
 app.use(express.urlencoded({ extended: true, limit: "1500mb" }));
 
 
-async function getPrompt(prompt) {
+async function getPromptApi(prompt) {
   try {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -143,7 +151,7 @@ app.post("/api/chat", upload.single("audio"), async (req, res) => {
       const buf = Buffer.from(compressedData, "base64");
       buf.name = "sound.webm";
   
-      const response = await getPrompt(buf, `whisper-1`);
+      const response = await getPromptApi(buf, `whisper-1`);
 
       console.log("Transcription response:", response.data);
 
@@ -158,7 +166,7 @@ app.post("/api/chat", upload.single("audio"), async (req, res) => {
 
     // Fetch chat completion response from OpenAI API
     try {
-      const chatCompletionResponse = await getPrompt(sessionResponse.messages);
+      const chatCompletionResponse = await getPromptApi(sessionResponse.messages);
 
       console.log("___________________", chatCompletionResponse.choices[0].message.content);
 
@@ -347,8 +355,10 @@ app.get('/userdata/:id', async (req, res) => {
       age: requestedUser.age,
       maritalStatus: requestedUser.maritalStatus,
       gender: requestedUser.gender,
+      advice: requestedUser.advice,
+      adviceScore:requestedUser.adviceScore,
     };
-
+      console.log(userData)
     res.status(200).json(userData);
 
    }
@@ -425,6 +435,125 @@ app.get('/personality-test/data/:userId', async (req, res) => {
 });
 
 
+//Mental Assessment
+
+
+async function getPrompt(prompt) {
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: prompt,
+      temperature: 0.6,
+      max_tokens: 1000,
+    });
+    return response.choices[0].message.content;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+
+app.post('/assessment-test/:userId', async (req, res) => {
+  console.log(req.body);
+
+  try {
+    const user = await User.findById(req.params.userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    console.log(user)
+    const updatedb = async (ans, sum) => {
+      console.log(ans)
+    
+      await User.updateOne(
+        { _id: user._id },
+        { $set: { advice: ans, adviceScore: sum } }
+      )
+      .then((result) => {
+        console.log(`Updated`);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    };
+    
+
+    // Calculating the score
+    const scores = req.body.selectedOptions;
+    let sum = 0;
+
+    for (const key in scores) {
+      if (scores.hasOwnProperty(key)) {
+        sum += parseInt(scores[key]);
+      }
+    }
+
+    console.log(sum);
+
+    let ans = '';
+
+    if (sum >= 16) {
+      // Initial phase of anxiety
+      const message = [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        {
+          role: 'assistant',
+          content:
+            "It seems like you are in good mental health, which is wonderful to hear. However, remember that mental health can fluctuate, so it's essential to continue practicing self-care and reach out for support if you ever feel the need. Keep up the positive attitude.",
+        },
+      ];
+      ans = await getPrompt(message);
+      console.log(ans)
+      updatedb(ans, sum);
+      res.redirect('/Account');
+    } else if (sum >= 12 && sum <= 16) {
+      const message = [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        {
+          role: 'assistant',
+          content:
+            "It appears that you may be experiencing some mild mental health symptoms. It's important to acknowledge these feelings and consider seeking support. Remember, reaching out to friends, family, or a mental health professional can make a significant difference in how you feel.",
+        },
+      ];
+      ans = await getPrompt(message);
+      updatedb(ans, sum);
+      res.redirect('/Account');
+    } else if (sum >= 8 && sum <= 12) {
+      const message = [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        {
+          role: 'assistant',
+          content:
+            "Your responses indicate that you may be dealing with moderate mental health symptoms. It's essential to prioritize your well-being and consider speaking with a mental health professional. They can provide guidance and support to help you manage these challenges.",
+        },
+      ];
+      ans = await getPrompt(message);
+      updatedb(ans, sum);
+      res.redirect('/Account');
+    } else {
+      const message = [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: 'I need tips on mental health?' },
+        {
+          role: 'assistant',
+          content:
+            "Your answers suggest that you are facing severe mental health symptoms. It's crucial to seek immediate help and not face these challenges alone. Reach out to a mental health professional, a trusted friend, or a helpline right away. You don't have to go through this on your own, and there is support available.",
+        },
+      ];
+      ans = await getPrompt(message);
+      updatedb(ans, sum);
+      res.redirect('/Account');
+    }
+  } catch (error) {
+    console.error('Error processing assessment test:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 app.listen(port, () => {

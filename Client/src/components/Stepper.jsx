@@ -11,6 +11,7 @@ import {
   StepStatus,
   StepTitle,
   Stepper,
+  useBreakpointValue,
   useSteps,
 } from '@chakra-ui/react';
 
@@ -20,16 +21,26 @@ const steps = [
   { title: 'Third', description: 'Consult' },
 ];
 
-export const StepperComponent=()=> {
+export const StepperComponent = (score) => {
+  console.log('Score', score.score);
+  let sum = 0;
+  if (score.score < 75) {
+    sum += 2;
+  } else {
+    sum += 0;
+  }
+
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   const { activeStep, setActiveStep } = useSteps({
-    index: 3,
+    index: sum,
     count: steps.length,
   });
 
   return (
-    <Stepper size="lg" index={activeStep}>
+    <Stepper size={isMobile ? 'sm' : 'lg'} orientation={isMobile ? 'vertical' : 'horizontal'} index={activeStep}>
       {steps.map((step, index) => (
-        <Step key={index} >
+        <Step key={index}>
           <StepIndicator>
             <StepStatus
               complete={<StepIcon />}
@@ -43,11 +54,9 @@ export const StepperComponent=()=> {
             <StepDescription color="black"> {step.description}</StepDescription>
           </Box>
 
-          <StepSeparator />
+          {index < steps.length - 1 && <StepSeparator />}
         </Step>
       ))}
     </Stepper>
   );
-}
-
-
+};

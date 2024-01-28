@@ -26,7 +26,7 @@ export const Index = () => {
   function introduction() {
     return {
       role: "assistant",
-      content: "Please wait while the system initializes...",
+      content: "Start typing to talk to your counsellor",
     };
   }
 
