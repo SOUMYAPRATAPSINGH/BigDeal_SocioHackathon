@@ -47,11 +47,11 @@ export const UserProfile = () => {
 
         {/* Personal Information */}
         <div>
-          <Text fontSize="xl" fontWeight="bold" mb="4" color="teal">
+          <Text fontSize="xl" fontWeight="bold" mb="4"  color="teal">
           {userData && userData.name} 's information.
           </Text>
         </div>
-        <HStack spacing="8" align="start" color="gray.200">
+        <HStack spacing="8" align="start" color="gray.300">
           <VStack spacing="4" align="start">
             <FormControl id="patientName">
               <FormLabel>Name</FormLabel>

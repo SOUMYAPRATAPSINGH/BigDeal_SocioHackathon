@@ -12,7 +12,8 @@ import {
 Flex,
 
 } from '@chakra-ui/react';
-import '../pages/HomePage.css'
+
+import '../pages/Homepage.css'
 import {motion} from 'framer-motion'
 import { Sidebar } from '../components/Sidebar.jsx';
 import {Rules} from '../components/Rules.jsx';
@@ -201,32 +202,29 @@ export const Assessment = () => {
 
   return (
     <motion.div 
-    
-    className='Home'
-    initial={{y:"100%"}}
-    animate={{y:"0%" }}
-    transition={ {ease:"easeIn",duration:0.80 }}
-    exit={{opacity:1}}>
-    <Flex direction={{ base: 'column', md: 'row' }} minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white">
+    initial={{opacity:0}}
+    animate={{opacity:1 }}
+    transition={ {ease:"easeIn",duration:0.60 }}
+    exit={{opacity:0}}>
+    <Flex direction={{ base: 'column', md: 'row' }} minH="100vh" bgColor={'black'} color="white">
     <Sidebar display={{ base: 'none', md: 'solid' }} />
     <Flex flex="1" direction="column" p="8" ml={{ base: '0', md: '260px' }}>
       {testGiven ? (
         <ResultComponent userData={userData} userinfo={userinfo} />
       ) : (
-        <Box p="6" bg="white" borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
+        <Box p="6" bgColor={'black'} borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
           <Container maxW="xl" centerContent>
             <Box
               display={{ base: 'block', md: 'flex' }}
               justifyContent="center"
-              p={3}
-              bg={'white'}
+              p={2}
+             
               w="100%"
               m={{ base: '40px 0 15px 0', md: '20px 0 15px 0' }}
-              borderRadius="lg"
-              borderWidth="1px"
+             
             >
-              <Text fontSize={{ base: '4xl', md: '2xl' }} fontFamily="Work Sans" color="black">
-                Personality Test
+              <Text fontWeight={'bold'} fontSize={{ base: '7xl', md: '2xl' }}  color="yellow.600">
+                Mental state assessment
               </Text>
             </Box>
           </Container>

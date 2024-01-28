@@ -82,13 +82,13 @@ export const QuestionsForm = ({
           {currentQuestion + 1}. {questions[currentQuestion]}
         </FormLabel>
         <RadioGroup value={selectedOptions[currentQuestion] || ''}>
-          <VStack spacing="2" color="gray.400" align="flex-start">
+          <VStack spacing="2" color="gray.200" align="flex-start">
             {Object.entries(options).map(([optionKey, optionValue]) => (
               <Radio
                 key={optionValue}
                 isChecked={selectedOptions[currentQuestion] === optionValue}
                 value={optionValue}
-                colorScheme="teal"
+                colorScheme="green"
                 size="md"
                 onChange={() => handleOptionChange(optionValue)}
                 style={{

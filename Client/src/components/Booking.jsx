@@ -149,7 +149,7 @@ export const Booking = () => {
         justifyContent={"center"}
         p={4}
       >
-        <Text fontSize="xl" mb={4}>
+        <Text fontSize="2xl" fontWeight={'bold'} mb={4}>
           Appointment Booking
         </Text>
         <BookingDetails {...bookingDetails} />

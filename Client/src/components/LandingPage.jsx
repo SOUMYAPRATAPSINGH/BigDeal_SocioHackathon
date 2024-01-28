@@ -75,9 +75,7 @@ export const LandingPage=()=> {
           alignSelf="center"
           justifySelf="center"
         >
-          <Text>
-            hello
-          </Text>
+          
         </TabList>
       </Tabs>
     </Flex>
