@@ -72,23 +72,23 @@ export const QuestionsForm = ({
   };
 
   return (
-    <VStack w="100%" align="start" spacing="4">
+    <VStack w="100%" align="start"  spacing="4">
       <FormControl as="fieldset" w="100%">
         <FormLabel
           fontSize={{ base: 'md', md: 'lg' }}
-          color="teal.500"
+          color="white.200"
           textAlign="start"
         >
           {currentQuestion + 1}. {questions[currentQuestion]}
         </FormLabel>
         <RadioGroup value={selectedOptions[currentQuestion] || ''}>
-          <VStack spacing="2" color="gray.800" align="flex-start">
+          <VStack spacing="2" color="gray.200" align="flex-start">
             {Object.entries(options).map(([optionKey, optionValue]) => (
               <Radio
                 key={optionValue}
                 isChecked={selectedOptions[currentQuestion] === optionValue}
                 value={optionValue}
-                colorScheme="teal"
+                colorScheme="green"
                 size="md"
                 onChange={() => handleOptionChange(optionValue)}
                 style={{
@@ -107,7 +107,7 @@ export const QuestionsForm = ({
             ))}
           </VStack>
         </RadioGroup>
-        <FormHelperText color="gray.400" textAlign="start">
+        <FormHelperText color="red.800" textAlign="start">
           Choose the option that best describes your opinion.
         </FormHelperText>
       </FormControl>

@@ -71,7 +71,7 @@ export const FaceDetectionComponent = () => {
           width="940"
           height="650"
           className="canvas-element"
-          style={{ position: 'absolute', top: 0, left: 0 }}
+          style={{ position: 'absolute', top: 1, left: 0 }}
         />
       </Box>
     </Box>

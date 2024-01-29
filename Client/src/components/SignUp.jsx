@@ -14,6 +14,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Swal from 'sweetalert2'; // Import SweetAlert
 import { useUser } from '../userContext.jsx';
+import {motion} from 'framer-motion'
 
 const SignUp = () => {
   const [show, setShow] = useState(false);
@@ -117,7 +118,8 @@ const SignUp = () => {
   };
 
   return (
-<VStack spacing="5px" color="black">
+    
+<VStack spacing="5px" color="white" >
       <FormControl id="first-name" isRequired>
         <FormLabel>Name</FormLabel>
         <Input
@@ -216,7 +218,7 @@ const SignUp = () => {
       </FormControl>
 
       <Button
-        colorScheme="blue"
+        colorScheme="green"
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
@@ -226,6 +228,7 @@ const SignUp = () => {
         {loading ? <Spinner /> : 'Sign Up'}
       </Button>
     </VStack>
+    
   );
 };
 

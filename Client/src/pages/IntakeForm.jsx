@@ -8,19 +8,27 @@ import {
 } from '@chakra-ui/react';
 import { Sidebar } from '../components/Sidebar.jsx';
 import { UserProfile } from '../pages/UserProfile.jsx';
-
+import { animate, easeIn, motion } from 'framer-motion'
+import '../pages/HomePage.css'
 export const IntakeForm = () => {
   const [isMobile] = useMediaQuery('(max-width: 600px)');
 
   return (
-    <Flex direction={isMobile ? 'column' : 'row'} minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white">
+    <motion.div 
+    
+    className='Home'
+    initial={{opacity:0}}
+    animate={{opacity:1}}
+    transition={ {ease:"easeOut",duration:0.5 }}
+    exit={{opacity:0}}>
+    <Flex direction={isMobile ? 'column' : 'row'} minH="100vh" bgColor={'black'} color="white">
       {/* Sidebar */}
       {isMobile ? null : <Sidebar />}
 
       {/* Main Content */}
       <Flex flex="1" direction="column" p="4" ml={isMobile ? '0' : '300px'}>
         {/* Main Content */}
-        <Box p="4" bg="white" borderRadius="md" boxShadow="md" mb="4" id="IntakeForm">
+        <Box p="4" bg="black" borderRadius="md" boxShadow="md" mb="4" id="IntakeForm">
           {/* Questions */}
           <UserProfile />
         </Box>
@@ -28,7 +36,9 @@ export const IntakeForm = () => {
         {/* Footer component */}
         <Box mt="auto" textAlign="center">
           <Text fontSize="sm" color="gray.500">
-            &copy; 2024 Eunoia. All rights reserved.
+
+            &copy; Eunoia 2024. All rights reserved.
+
           </Text>
         </Box>
       </Flex>
@@ -36,5 +46,6 @@ export const IntakeForm = () => {
       {/* Sidebar for mobile view */}
       {isMobile && <Sidebar />}
     </Flex>
+    </motion.div>
   );
 };

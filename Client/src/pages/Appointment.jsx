@@ -10,10 +10,12 @@ import {
 
 import { Sidebar } from "../components/Sidebar.jsx"
 import { Booking } from '../components/Booking.jsx';
+import '../pages/HomePage.css'
 
 export const Appointment = () => {
   return (
-    <Flex minH="100vh" bgGradient="linear(to-r, #89f7fe, #66a6ff)" color="white" direction="column">
+   
+    <Flex  minH="100vh"  color="white" bgColor={'black'} direction="column">
       {/* Sidebar */}
       <Sidebar />
 
@@ -26,9 +28,10 @@ export const Appointment = () => {
         {/* Main Content */}
         <Box
           p={{ base: '2', md: '4' }} // Adjust padding for mobile view
-          bg="white"
+          color={'white'}
           borderRadius="md"
           boxShadow="md"
+          
           mb={{ base: '4', md: '8' }} // Adjust margin for mobile view
           id="PersonalityTest"
         >
@@ -36,13 +39,9 @@ export const Appointment = () => {
           <Booking />
         </Box>
 
-        {/* Footer component */}
-        <Box textAlign="center" p="2">
-          <Text fontSize="sm" color="gray.500">
-            &copy;2024 Eunoia. All rights reserved.
-          </Text>
-        </Box>
+       
       </Flex>
     </Flex>
+    
   );
 };

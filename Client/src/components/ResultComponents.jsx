@@ -65,17 +65,17 @@ export const ResultComponent = ({ userData ,userinfo}) => {
   return (
     <Box
       p="4"
-      bgGradient="linear(to-r, #36D1DC, #5B86E5)" 
+      bgColor={'black'}
 
       borderRadius="md"
       boxShadow="lg"
       textAlign="center"
-      color="teal"
+      color="green.200"
     >
       <VStack spacing="4">
-        <Heading fontSize={{ base: '2xl', md: '4xl' }} color="white">
+        {/* <Heading fontSize={{ base: '2xl', md: '4xl' }} color="white">
           NEO Personality Inventory
-        </Heading>
+        </Heading> */}
 
         <VStack align="center" justify="center">
           <Image src={image} alt="Trophy" boxSize="100px" width={100} />

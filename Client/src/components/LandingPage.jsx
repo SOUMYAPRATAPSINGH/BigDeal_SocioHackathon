@@ -1,3 +1,4 @@
+
 // // Chakra imports
 // import {
 //   Avatar,
@@ -346,5 +347,6 @@ export const LandingPage = () => {
       <Index/>
     </div>
   )
+
 }
 

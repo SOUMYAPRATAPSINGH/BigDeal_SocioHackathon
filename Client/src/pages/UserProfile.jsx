@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { StepperComponent} from "../components/Stepper.jsx";
 import { Link } from 'react-router-dom';
+
 
 import {
   Box,
@@ -22,7 +24,9 @@ import {
 import axios from "axios";
 import { useUser } from "../userContext.jsx";
 
+
 export const UserProfile = () => {
+
   const { userId } = useUser();
   const [userData, setUserData] = useState(null);
   const [mentalHealthStatus, setMentalHealthStatus] = useState(70);
@@ -85,8 +89,10 @@ const handlePersonalityTest = () => {
             resilience, positive relationships, and a fulfilling life journey."
           </Text>
         </VStack>
+
         <Spacer />
       </Flex>
+
 
       <Box
         mt={5}
@@ -208,6 +214,7 @@ const handlePersonalityTest = () => {
     </Button>
   </VStack>
 </Flex>
+
 
     </div>
   );
