@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VStack, Box, Avatar, Text, Button, Flex, IconButton, useMediaQuery, Icon } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaFileAlt, FaUser, FaBrain, FaCalendarAlt, FaSignOutAlt } from 'react-icons/fa';
+import { FaComment,FaHome,FaBars, FaTimes, FaFileAlt, FaUser, FaBrain, FaCalendarAlt, FaSignOutAlt } from 'react-icons/fa';
 import axios from 'axios';
 import { useUser } from '../userContext.jsx'; // Adjust the path accordingly
 import { calcLength } from 'framer-motion';
@@ -25,7 +25,7 @@ export const Sidebar = () => {
     
     const getUserData = async () => {
       try {
-        const response = await axios.get(`/userdata/${userId}`);
+        const response = await axios.get(`http://localhost:3000/userdata/${userId}`);
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error.message);
@@ -72,12 +72,17 @@ export const Sidebar = () => {
             <FaHospitalUser color='red' size={40}/>
               <Text mt={2}>{userData && userData.name}</Text>
             </Box>
+
+
             <Button bgColor={'green.200'} variant="solid" size="md" w="90%"  leftIcon={<Icon as={FaFileAlt} />}>
+
               <Link to="/intake-form">
-                Intake Form
+                Dashboard
               </Link>
             </Button>
+
             <Button bgColor={'green.200'} variant="solid" size="md" w="90%" leftIcon={<Icon as={FaUser} />}>
+
               <Link to="/personality-test" >
                 Personality Test
               </Link>
@@ -92,6 +97,12 @@ export const Sidebar = () => {
                 Book Session
               </Link>
             </Button>
+            <Button colorScheme="teal" variant="solid" size="md" w="100%" leftIcon={<Icon as={FaComment} />}>
+              <Link to="/dash" >
+                Talk to AI
+              </Link>
+            </Button>
+            
             <Button
               colorScheme="red"  // Change this to your desired color scheme
               variant="outline"

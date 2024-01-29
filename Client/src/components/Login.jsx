@@ -70,7 +70,7 @@ const Login = () => {
 
       setLoading(true);
 
-      const response = await axios.post('/api/login', {
+      const response = await axios.post('http://localhost:3000/api/login', {
         email,
         password,
       });
@@ -90,7 +90,7 @@ const Login = () => {
 
         // Continue with your navigation logic
         setSessionTimeoutCallback();
-        history.push("/dash");
+        history.push("/intake-form");
       } else {
         showAlert('Error', 'Invalid email or password', 'error');
       }

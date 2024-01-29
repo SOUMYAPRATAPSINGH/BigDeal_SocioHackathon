@@ -62,7 +62,7 @@ export const Booking = () => {
       order_id: paymentData.id,
       handler: async (response) => {
         try {
-          const verifyUrl = "/api/payment/verify";
+          const verifyUrl = "http://localhost:3000/api/payment/verify";
           const { data: verifyData } = await axios.post(verifyUrl, response);
 
           handlePaymentSuccess(response);
@@ -89,7 +89,7 @@ export const Booking = () => {
         setLoading(true);
 
         const { data: orderData } = await axios.post(
-          "/api/payment/orders",
+          "http://localhost:3000/api/payment/orders",
           {
             amount: bookingDetails.price,
             appointmentDetails: appointmentDetails,

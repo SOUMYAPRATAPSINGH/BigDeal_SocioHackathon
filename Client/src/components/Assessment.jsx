@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import axios from "axios";
 import { useUser } from '../userContext.jsx';
 import logo from "../assets/OpenUp.jpg"
-import {FaceDetectionComponent} from "./FaceDetectionComponent.jsx"
+// import {FaceDetectionComponent} from "./FaceDetectionComponent.jsx"
 import {
   VStack,
   Button,
@@ -18,7 +18,6 @@ import {motion} from 'framer-motion'
 import { Sidebar } from '../components/Sidebar.jsx';
 import {Rules} from '../components/Rules.jsx';
 import {QuestionsForm} from '../components/QuestionsForm.jsx';
-import { ResultComponent } from '../components/ResultComponents.jsx';
 export const Assessment = () => {
   const questionsWithOptions = {
     "Overall how would you rate your mental health?": {
@@ -82,28 +81,27 @@ export const Assessment = () => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [testStarted, setTestStarted] = useState(false);
   const [agreementChecked, setAgreementChecked] = useState(false);
-  const [testGiven, setTestGiven] = useState(false);
   const [userData, setUserData] = useState();
   const { userId } = useUser();
   const [userinfo, setUserinfo] = useState(); 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch user data from the backend API using the userId
-        const responseUserInfo = await axios.get(`/userdata/${userId}`);
-        setUserinfo(responseUserInfo.data);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // // Fetch user data from the backend API using the userId
+  //       // const responseUserInfo = await axios.get(`/userdata/${userId}`);
+  //       // setUserinfo(responseUserInfo.data);
   
-        const responseUserData = await axios.get(`/personality-test/data/${userId}`);
-        setUserData(responseUserData.data);
-        setTestGiven(true);
-      } catch (error) {
-      }
-    };
+  //       const responseUserData = await axios.get(`/assessment-test/data/${userId}`);
+  //       setUserData(responseUserData.data);
+  //       setTestGiven(true);
+  //     } catch (error) {
+  //     }
+  //   };
   
-    if (userId) {
-      fetchData();
-    }
-  }, [userId]);
+  //   if (userId) {
+  //     fetchData();
+  //   }
+  // }, [userId]);
   
 
   useEffect(() => {
@@ -133,42 +131,11 @@ export const Assessment = () => {
   };
 
   const handleSubmission = async () => {
-    const selectedIndices1 = Array.from({ length: 12 }, (_, index) => index * 5);
-    const selectedIndices2 = Array.from({ length: 12 }, (_, index) => index + 1);
-    const selectedIndices3 = Array.from({ length: 12 }, (_, index) => index + 2);
-    const selectedIndices4 = Array.from({ length: 12 }, (_, index) => index + 3);
-    const selectedIndices5 = Array.from({ length: 12 }, (_, index) => index + 4);
-
-    const N = selectedIndices1.reduce((sum, index) => sum + (selectedOptions[index] || 0), 0);
-    const E = selectedIndices2.reduce((sum, index) => sum + (selectedOptions[index] || 0), 0);
-    const O = selectedIndices3.reduce((sum, index) => sum + (selectedOptions[index] || 0), 0);
-    const A = selectedIndices4.reduce((sum, index) => sum + (selectedOptions[index] || 0), 0);
-    const C = selectedIndices5.reduce((sum, index) => sum + (selectedOptions[index] || 0), 0);
-
-    const resultArray = [N, E, O, A, C];
-
-    const personalityTestData = {
-      openness: N,
-      conscientiousness: E,
-      extraversion: O,
-      agreeableness: A,
-      neuroticism: C,
-    };
-    console.log(personalityTestData);
-
-    const openness= N;
-    const conscientiousness= E
-    const extraversion= O
-    const agreeableness= A
-    const neuroticism= C
+    console.log(selectedOptions)
 
     try {
-      const response = await axios.post(`/personality-test/${userId}`, {
-        openness,
-        conscientiousness,
-        extraversion,
-        agreeableness,
-        neuroticism,
+      const response = await axios.post(`http://localhost:3000/assessment-test/${userId}`, {
+        selectedOptions
       });
   
       if (response.status === 200) {
@@ -209,10 +176,13 @@ export const Assessment = () => {
     <Flex direction={{ base: 'column', md: 'row' }} minH="100vh" bgColor={'black'} color="white">
     <Sidebar display={{ base: 'none', md: 'solid' }} />
     <Flex flex="1" direction="column" p="8" ml={{ base: '0', md: '260px' }}>
+
+
       {testGiven ? (
         <ResultComponent userData={userData} userinfo={userinfo} />
       ) : (
         <Box p="6" bgColor={'black'} borderRadius="md" boxShadow="md" mb="4" id="PersonalityTest">
+
           <Container maxW="xl" centerContent>
             <Box
               display={{ base: 'block', md: 'flex' }}
@@ -223,13 +193,15 @@ export const Assessment = () => {
               m={{ base: '40px 0 15px 0', md: '20px 0 15px 0' }}
              
             >
+
               <Text fontWeight={'bold'} fontSize={{ base: '7xl', md: '2xl' }}  color="yellow.600">
                 Mental state assessment
+
               </Text>
             </Box>
           </Container>
           <VStack align="center" spacing="4" mt="4">
-            <FaceDetectionComponent  />
+            {/* <FaceDetectionComponent  /> */}
 
             {!testStarted && <Rules agreementChecked={agreementChecked} onAgreementChange={setAgreementChecked} />}
 
@@ -253,7 +225,7 @@ export const Assessment = () => {
             )}
           </VStack>
         </Box>
-      )}
+      
       <Box mt="auto" textAlign="center">
         <Text fontSize="sm" color="gray.500">
           &copy; 2024 Eunoia. All rights reserved.

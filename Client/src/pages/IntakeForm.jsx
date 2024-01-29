@@ -36,7 +36,9 @@ export const IntakeForm = () => {
         {/* Footer component */}
         <Box mt="auto" textAlign="center">
           <Text fontSize="sm" color="gray.500">
-            &copy; Eunoia. All rights reserved.
+
+            &copy; Eunoia 2024. All rights reserved.
+
           </Text>
         </Box>
       </Flex>
